@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .main {
+            width: 50%;
+            background-color: bisque;
+            padding: 20px;
+            margin: auto;
+            margin-top: 100px;
+            text-align: center;
+        }
+        #checkForm {
+            width: 80%;
+            margin: auto;
+        }
+
+        #checkForm input {
+            width: 100%;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        .textField {
+            display: flex;
+            justify-content: space-between;
+            margin: 0;
+        }
+        button {
+            display: block;
+            margin: auto;
+            margin-top: 20px;
+            width: 200px;
+            height: 30px;
+        }
+    </style>
+    <title>First info</title>
+</head>
+<body>
+    <div class="main">
+        <h2>Registration</h2>
+        <form method="get" id="checkForm" onsubmit="send()">
+            <p class="textField" id="emailText"><span>Email:</span></p>
+            <input type="email" id="email" name="email" required>
+            <p class="textField" id="passwordText">Password:</p>
+            <input type="password" id="password" name="password" required>
+            <input type="submit" value="Register">
+        </form>
+        <button onclick="window.location.href='/'">На главную</button>
+        <button onclick="window.location.href='/users/'">Посмотреть пользователей</button>
+    </div>
+
+    <script defer>
+
+        async function send(){
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const response = await fetch("/rec/", {
+                    method: "POST",
+                    headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        mail: email,
+                        pass: password
+                    })
+            });
+            
+        }
+
+    </script>
+</body>
+</html>

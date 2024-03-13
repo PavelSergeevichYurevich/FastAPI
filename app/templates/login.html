@@ -6,7 +6,7 @@
     <style>
         .main {
             width: 50%;
-            background-color: bisque;
+            background-color: gray;
             padding: 20px;
             margin: auto;
             margin-top: 100px;
@@ -39,33 +39,25 @@
 </head>
 <body>
     <div class="main">
-        <h2>Registration</h2>
+        <h2>Login</h2>
         <form method="get" id="checkForm" onsubmit="send()">
             <p class="textField" id="emailText"><span>Email:</span></p>
             <input type="email" id="email" name="email" required>
             <p class="textField" id="passwordText">Password:</p>
             <input type="password" id="password" name="password" required>
-            <input type="submit" value="Sign Up">
+            <input type="submit" value="Login">
         </form>
-        <button onclick="back()">На главную</button>
-        <button onclick="usrs()">Посмотреть пользователей</button>
+        <button onclick="window.location.href='/'">На главную</button>
+        <button onclick="window.location.href='/users/'">Посмотреть пользователей</button>
+        <button onclick="window.location.href='/register/'">Регистрация</button>
     </div>
 
     <script defer>
-        function back() {
-            window.location.href='/'
-        }
-
-        function usrs() {
-            window.location.href='/users/'
-        }
 
         async function send(){
-            // получаем введеное в поле имя и возраст
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-            // отправляем запрос
-            const response = await fetch("/rec/", {
+            const response = await fetch("/check/", {
                     method: "POST",
                     headers: { "Accept": "application/json", "Content-Type": "application/json" },
                     body: JSON.stringify({ 
@@ -73,12 +65,7 @@
                         pass: password
                     })
             });
-            if (response.ok) {
-                const data = await response.json();
-                document.getElementById("newUser").textContent = data.message;
-            }
-            else
-                console.log(response);
+            
         }
 
     </script>

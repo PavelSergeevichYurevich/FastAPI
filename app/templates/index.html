@@ -18,18 +18,8 @@
 </style>
 <body>
   <h1 style="text-align: center;">FastAPI</h1>
-  <button onclick="reg()">На форму регистрации</button>
-  <button onclick="usrs()">Посмотреть пользователей</button>
+  <button onclick="window.location.href='/login/'">Вход</button>
+  <button onclick="window.location.href='/users/'">Посмотреть пользователей</button>
 
-  <script defer>
-
-    function reg() {
-      window.location.href='/login/'
-    }
-
-    function usrs() {
-      window.location.href='/users/'
-    }
-  </script>
 </body>
 </html>
