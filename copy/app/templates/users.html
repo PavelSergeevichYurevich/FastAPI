@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    button {
+        margin: auto;
+        margin-top: 20px;
+        width: 200px;
+        height: 30px;
+    }
+    table {
+        margin: auto;
+        width: 80%;
+        background-color: bisque;
+        border: 1px solid black;
+    }
+    table tr, th {
+        border: 1px solid black;
+        font-weight: lighter;
+
+    }
+    table thead tr, th{
+        font-weight: bolder;
+    }
+    div {
+        display: flex;
+        justify-content:center;
+        margin: auto;
+    }     
+</style>
+<body>
+    <h1 style="text-align: center;">Users</h1>
+    <h2 style="text-align: center";>Список пользователей</h2>
+  
+    <table>
+        <thead><tr><th>Email</th><th>Password</th></tr></thead>
+        <tbody id="table">
+        </tbody>
+    </table>
+
+    <div id="context" style="display: none;">{{ context }}</div>
+
+    <div>
+        <button onclick="window.location.href='/'">На главную</button>
+        <button onclick="window.location.href='/login/'">На форму регистрации</button>
+    </div>
+
+    <script defer>
+        let context = document.querySelector('#context')
+        let users_str = context.textContent
+        let table = document.querySelector('#table')
+
+        users_str = users_str.slice(2, users_str.length - 2)
+        users_str = users_str.replaceAll(' ', '')
+        users_str = users_str.replaceAll("'", "")
+        let users = users_str.split(',')
+        for(let i = 0; i < users.length; ++i) {
+            currentUser = users[i].split(':')
+            table.insertAdjacentHTML("beforeend", `<tr><th>${currentUser[0]}</th><th>${currentUser[1]}</th></tr>`)
+        }
+
+    </script>
+</body>
+</html>
