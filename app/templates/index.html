@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  button {
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    width: 200px;
+    height: 30px;
+
+  }
+</style>
+<body>
+  <h1 style="text-align: center;">FastAPI</h1>
+  <button onclick="reg()">На форму регистрации</button>
+  <button onclick="usrs()">Посмотреть пользователей</button>
+
+  <script defer>
+
+    function reg() {
+      window.location.href='/login/'
+    }
+
+    function usrs() {
+      window.location.href='/users/'
+    }
+  </script>
+</body>
+</html>
