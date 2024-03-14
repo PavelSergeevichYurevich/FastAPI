@@ -51,8 +51,8 @@ async def check_us(data = Body()):
     for user in users:
         if (user.email == new_email) and (user.password == new_password):
             return RedirectResponse(url="/enter/", status_code=status.HTTP_302_FOUND)
-        """  else:
-            return 'Такого пользователя нет. Зарегистрируйтесь.' """
+    else:
+        return 'Такого пользователя нет. Зарегистрируйтесь.'
     
     
 

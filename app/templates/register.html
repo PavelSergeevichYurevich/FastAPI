@@ -49,6 +49,8 @@
         </form>
         <button onclick="window.location.href='/'">На главную</button>
         <button onclick="window.location.href='/users/'">Посмотреть пользователей</button>
+        <button onclick="window.location.href='/login/'">Вход</button>
+
     </div>
 
     <script defer>
@@ -68,6 +70,7 @@
             })
             .then(res => {
                 if (res.redirected) {
+                    alert('Пользователь зарегистрирован')
                     window.location.href = res.url;
                     return;
                 } 
