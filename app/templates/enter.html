@@ -5,20 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Проект</title>
 </head>
-<body body onload="checkMail()">
+<body>
     <h1 style="text-align: center;">Вы успешно вошли!</h1>
     <button onclick="window.location.href='/'" style="text-align: center; display: block; margin: auto;">На главную</button>
+    <button onclick="delCookies()" style="text-align: center; display: block; margin: auto;">Удалить куки</button>
     <script defer>
-        function checkMail() {
-        /*     let cook = document.cookie;
-            let str = cook.split('; ');
-            let cookieObject = {};
-            let curr;
-        
-            for (let i = 0; i < str.length; ++i) {
-                curr = str[i].split('=');
-                cookieObject[curr[0]] = curr[1];
-            } */
+        console.log(document.cookie)
+        function delCookies () {
+            var cookies = document.cookie.split(";");
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+                document.cookie = name + '=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            }
             console.log(document.cookie)
         }
     </script>

@@ -62,8 +62,9 @@
             let password = document.querySelector("#password").value;
             let expDate = new Date;
             expDate.setTime((new Date).getTime() + 604800000);
-            let updatedCookie = "email="+email+";expires="+expDate.toGMTString()+";path=/";
-            document.cookie = updatedCookie
+            // document.cookie = email+"="+password+";expires="+expDate.toGMTString()+";path=/";
+            document.cookie += "email="+email+"; "+"expires="+expDate.toGMTString()+";path=/";
+
             fetch("/rec/", {
                 method: "POST",
                 headers: { "Accept": "application/json", "Content-Type": "application/json" },
