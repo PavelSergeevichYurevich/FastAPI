@@ -59,10 +59,18 @@
     <script defer>
         const form = document.querySelector('#checkForm')
         form.addEventListener('submit', function(e) {e.preventDefault()})
+        let cook = document.cookie;
+        let str = cook.split('; ');
+        let cookieObject = {};
+        let curr;
+        for (let i = 0; i < str.length; ++i) {
+            curr = str[i].split('=');
+            cookieObject[curr[0]] = curr[1];
+        }
+        console.log(cookieObject)
         function check() {
-            let cook = document.cookie;
-            let checkMail = document.querySelector("#email")
-            if (checkMail in cook) {
+            let checkMail = document.querySelector("#email").value
+            if (checkMail in cookieObject) {
                 window.location.href='/enter/'
             }
         }
