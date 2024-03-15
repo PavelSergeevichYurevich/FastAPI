@@ -5,9 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Проект</title>
 </head>
-<body>
+<body body onload="checkMail()">
     <h1 style="text-align: center;">Вы успешно вошли!</h1>
     <button onclick="window.location.href='/'" style="text-align: center; display: block; margin: auto;">На главную</button>
-
+    <script defer>
+        function checkMail() {
+        /*     let cook = document.cookie;
+            let str = cook.split('; ');
+            let cookieObject = {};
+            let curr;
+        
+            for (let i = 0; i < str.length; ++i) {
+                curr = str[i].split('=');
+                cookieObject[curr[0]] = curr[1];
+            } */
+            console.log(document.cookie)
+        }
+    </script>
 </body>
+
 </html>

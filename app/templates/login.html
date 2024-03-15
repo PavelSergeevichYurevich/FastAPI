@@ -59,6 +59,24 @@
     <script defer>
         const form = document.querySelector('#checkForm')
         form.addEventListener('submit', function(e) {e.preventDefault()})
+   {/*      function checkMail() {
+            let cook = document.cookie;
+            let str = cook.split('; ');
+            let cookieObject = {};
+            let curr;
+        
+            for (let i = 0; i < str.length; ++i) {
+                curr = str[i].split('=');
+                cookieObject[curr[0]] = curr[1];
+            }
+        
+           if ('email' in cookieObject) {
+                window.location.href="/enter/";
+            }
+            else {
+                return true;
+            }
+        } */}
         async function send(){
             const email = document.querySelector("#email").value;
             const password = document.querySelector("#password").value;

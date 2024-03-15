@@ -40,7 +40,7 @@
 <body>
     <div class="main">
         <h2>Registration</h2>
-        <form method="get" id="checkForm" onsubmit="send()">
+        <form method="POST" id="checkForm" onsubmit="send()">
             <p class="textField" id="emailText"><span>Email:</span></p>
             <input type="email" id="email" name="email" required>
             <p class="textField" id="passwordText">Password:</p>
@@ -58,8 +58,12 @@
         form.addEventListener('submit', function(e) {e.preventDefault()})
 
         async function send(){
-            const email = document.querySelector("#email").value;
-            const password = document.querySelector("#password").value;
+            let email = document.querySelector("#email").value;
+            let password = document.querySelector("#password").value;
+            let expDate = new Date;
+            expDate.setTime((new Date).getTime() + 604800000);
+            let updatedCookie = "email="+email+";expires="+expDate.toGMTString()+";path=/";
+            document.cookie = updatedCookie
             fetch("/rec/", {
                 method: "POST",
                 headers: { "Accept": "application/json", "Content-Type": "application/json" },
