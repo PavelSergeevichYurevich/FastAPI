@@ -67,11 +67,12 @@
             curr = str[i].split('=');
             cookieObject[curr[0]] = curr[1];
         }
-        console.log(cookieObject)
         function check() {
             let checkMail = document.querySelector("#email").value
             if (checkMail in cookieObject) {
-                window.location.href='/enter/'
+                name = cookieObject[checkMail]
+                url_redirect = '/tasks/'+name
+                window.location.href=url_redirect
             }
         }
         async function send(){

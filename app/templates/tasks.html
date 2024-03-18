@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks</title>
+</head>
+<style>
+    button {
+        margin: auto;
+        margin-top: 20px;
+        width: 200px;
+        height: 30px;
+    }
+    table {
+        margin: auto;
+        width: 80%;
+        background-color: bisque;
+        border: 1px solid black;
+    }
+    table tr, th {
+        border: 1px solid black;
+        font-weight: lighter;
+
+    }
+    table thead tr, th{
+        font-weight: bolder;
+    }
+    div {
+        display: flex;
+        justify-content:center;
+        margin: auto;
+    }     
+    #taskForm {
+        width: 80%;
+        margin: auto;
+    }
+
+    #checkForm input {
+        width: 100%;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+    .textField {
+        display: flex;
+        justify-content: space-between;
+        margin: 0;
+    }
+</style>
+<body>
+    <h1 style="text-align: center;">Tasks</h1>
+    <h2 style="text-align: center";>Список задач пользователя <p id="user">{{ context.name }}</p></h2>
+  
+    <table>
+        <thead><tr><th>Задача</th><th>Описание</th><th>Срок</th></tr></thead>
+        <tbody id="table">
+            {%for task in context.tasks%}
+                <tr>
+                    <th>{{task.task}}</th>
+                    <th>{{task.describe}}</th>
+                    <th>{{task.ex_date}}</th>
+                </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+
+    <form method="POST" id="taskForm" onsubmit="send()">
+
+        <p class="textField"><span>Task:</span></p>
+        <input type="text" id="name" required>
+
+        <p class="textField">Description:</p>
+        <input type="text" id="description" required>
+
+        <p class="textField">Date:</p>
+        <input type="date" id="date" required>
+
+        <input type="submit" value="Confirm">
+    </form>
+
+    <div id="context" style="display: block;">
+   
+    </div>
+
+    <div>
+        <button onclick="window.location.href='/'">На главную</button>
+    </div>
+
+    <script defer>
+        const form = document.querySelector('#taskForm');
+        form.addEventListener('submit', function(e) {e.preventDefault()});
+
+        async function send(){
+            let name = document.querySelector("#name").value;
+            let description = document.querySelector("#description").value;
+            let date = document.querySelector("#date").value;
+            let currentUser = document.querySelector('#user').textContent
+            console.log(currentUser)
+            fetch("/recTask/", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({ 
+                    task: name,
+                    describe: description,
+                    ex_date: date,
+                    name_resp: currentUser
+                })
+            })
+            .then(res => {
+                if (res.redirected) {
+                    alert('Задача добавлена')
+                    window.location.href = res.url;
+                    return;
+                } 
+                else
+                    return res.text();
+                });
+            
+        }
+
+    </script>
+</body>
+</html>

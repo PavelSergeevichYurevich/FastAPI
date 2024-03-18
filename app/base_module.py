@@ -1,18 +1,30 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData, Table, Integer, String, Column, DateTime, ForeignKey, Numeric
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import  Column, Integer, String
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 
 def create_open_base():
-    SQLALCHEMY_DATABASE_URL = "sqlite:///./users.db"
-    engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+    engine = create_engine("sqlite:///./users.db")
     Base = declarative_base()   
     class Person(Base):
-        __tablename__ = "Users"
-        id = Column(Integer, primary_key=True, index=True)
+        __tablename__ = "users"
+        id = Column(Integer(), primary_key=True, index=True)
         email = Column(String)
         password = Column(String) 
+        name = Column(String)
+        tasks = relationship("Task", backref='user')
+        
+    class Task(Base):
+        __tablename__ = "tasks"
+        id = Column(Integer, primary_key=True, index=True)
+        task = Column(String)
+        describe = Column(String) 
+        ex_date = Column(String) 
+        name_resp = Column(String, ForeignKey('users.name'))
+        
     Base.metadata.create_all(bind=engine)
+    # Base.metadata.drop_all(engine)
     SessionLocal = sessionmaker(autoflush=False, bind=engine)
     db = SessionLocal()
-    return db, Person
+    return db, Person, Task
+
+# create_open_base()

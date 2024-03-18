@@ -5,6 +5,7 @@ import base_module
 
 app = FastAPI() # <- Создаем экземпляр класса FastAPI
 templates = Jinja2Templates(directory="templates")
+db, Person, Task = base_module.create_open_base()
 
 @app.get("/") # <- декоратор, который обрабатывает get - запросы где маршрут
 async def index(request: Request):
@@ -24,33 +25,51 @@ async def enter(request:Request):
  
 @app.get("/users/", response_class = HTMLResponse) # <- декоратор, который обрабатывает get - запросы где маршрут
 async def get_users_page(request:Request):
-    db, Person = base_module.create_open_base()
-    users = db.query(Person).all()
-    context = {}
+    users:list = db.query(Person).all()
+    context:dict = {}
+    i:int = 1
     for user in users:
-        new_el = {user.email: user.password}
+        new_el = {str(i): user.name}
         context.update(new_el)
+        i += 1
     return templates.TemplateResponse("users.html", {"request": request, "context": context})
+
+@app.get("/tasks/{name}") # <- декоратор, который обрабатывает get - запросы где маршрут
+async def get_tasks_page(request:Request, name):
+    context = db.query(Person).filter(Person.name == name).one()
+    return templates.TemplateResponse("tasks.html", {"request": request, "context": context})
 
 @app.post("/rec/")
 async def add_us(data = Body()):
-    db, Person = base_module.create_open_base()
     new_email = data["mail"]
     new_password = data["pass"]
-    user = Person(email = new_email, password = new_password)
+    new_name = data["name"]
+    user = Person(email = new_email, password = new_password, name = new_name)
     db.add(user)
     db.commit()
     return RedirectResponse(url="/login/", status_code=status.HTTP_302_FOUND)
+
+@app.post("/recTask/")
+async def add_task(data = Body()):
+    new_task = data["task"]
+    new_describe = data["describe"]
+    new_ex_date = data["ex_date"]
+    new_name_resp = data["name_resp"]
+    name = new_name_resp
+    task = Task(task = new_task, describe = new_describe, ex_date = new_ex_date, name_resp = new_name_resp)
+    db.add(task)
+    db.commit()
+    return RedirectResponse(url=f"/tasks/{name}", status_code=status.HTTP_302_FOUND)
     
 @app.post("/check/")
 async def check_us(data = Body()):
-    db, Person = base_module.create_open_base()
     new_email = data["mail"]
     new_password = data["pass"]
     users = db.query(Person).all()
     for user in users:
         if (user.email == new_email) and (user.password == new_password):
-            return RedirectResponse(url="/enter/", status_code=status.HTTP_302_FOUND)
+            name = user.name
+            return RedirectResponse(url=f"/tasks/{name}",status_code=status.HTTP_302_FOUND)
     else:
         return 'Такого пользователя нет. Зарегистрируйтесь.'
     

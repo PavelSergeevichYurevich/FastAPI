@@ -41,10 +41,16 @@
     <div class="main">
         <h2>Registration</h2>
         <form method="POST" id="checkForm" onsubmit="send()">
+
             <p class="textField" id="emailText"><span>Email:</span></p>
             <input type="email" id="email" name="email" required>
+
             <p class="textField" id="passwordText">Password:</p>
             <input type="password" id="password" name="password" required>
+
+            <p class="textField" id="nameText">Name:</p>
+            <input type="text" id="name" name="name" required>
+
             <input type="submit" value="Register">
         </form>
         <button onclick="window.location.href='/'">На главную</button>
@@ -60,16 +66,18 @@
         async function send(){
             let email = document.querySelector("#email").value;
             let password = document.querySelector("#password").value;
+            let name = document.querySelector("#name").value;
             let expDate = new Date;
             expDate.setTime((new Date).getTime() + 604800000);
-            document.cookie = email+"="+password+";expires="+expDate.toGMTString()+";path=/";
+            document.cookie = email+"="+name+";expires="+expDate.toGMTString()+";path=/";
 
             fetch("/rec/", {
                 method: "POST",
                 headers: { "Accept": "application/json", "Content-Type": "application/json" },
                 body: JSON.stringify({ 
                     mail: email,
-                    pass: password
+                    pass: password,
+                    name: name
                 })
             })
             .then(res => {
