@@ -60,6 +60,30 @@ async def add_task(data = Body()):
     db.add(task)
     db.commit()
     return RedirectResponse(url=f"/tasks/{name}", status_code=status.HTTP_302_FOUND)
+
+@app.post("/taskChange/")
+async def add_task(data = Body()):
+    id = data["id"]
+    field = data["field"]
+    new_value = data["new_value"]
+    name = data["name"]
+    task = db.query(Task).get(id)
+    match field:
+        case 'task': task.task = new_value
+        case 'describe': task.describe = new_value
+        case 'ex_date': task.ex_date = new_value
+    db.add(task)
+    db.commit()
+    return RedirectResponse(url=f"/tasks/{name}", status_code=status.HTTP_302_FOUND)
+
+@app.post("/taskDel/")
+async def add_task(data = Body()):
+    id = data["id"]
+    name = data["name"]
+    task = db.query(Task).get(id)
+    db.delete(task)
+    db.commit()
+    return RedirectResponse(url=f"/tasks/{name}", status_code=status.HTTP_302_FOUND)
     
 @app.post("/check/")
 async def check_us(data = Body()):

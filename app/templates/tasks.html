@@ -10,7 +10,7 @@
         margin: auto;
         margin-top: 20px;
         width: 200px;
-        height: 30px;
+        height: 50px;
     }
     table {
         margin: auto;
@@ -32,8 +32,12 @@
         margin: auto;
     }     
     #taskForm {
-        width: 80%;
+        width: 30%;
         margin: auto;
+        margin-top: 100px;
+        padding: 10px;
+        background-color: bisque;
+        display: none;
     }
 
     #checkForm input {
@@ -46,56 +50,148 @@
         justify-content: space-between;
         margin: 0;
     }
+    .ID {
+        display: none;
+    }
+    [data-tooltip] {
+        position: relative;
+    }
+    [data-tooltip]::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        width: 300px; /* Ширина подсказки */
+        left: 0; top: 0;
+        background: #3989c9;
+        color: #fff;
+        padding: 0.5em;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        pointer-events: none;
+        opacity: 0;
+        transition: 1s; /* Время появления подсказки */
+    } 
+       [data-tooltip]:hover::after {
+        opacity: 1;
+        top: 3em;
+    }
 </style>
 <body>
     <h1 style="text-align: center;">Tasks</h1>
     <h2 style="text-align: center";>Список задач пользователя <p id="user">{{ context.name }}</p></h2>
   
     <table>
-        <thead><tr><th>Задача</th><th>Описание</th><th>Срок</th></tr></thead>
-        <tbody id="table">
+        <thead><tr><th class="ID"></th><th>№</th><th>Задача</th><th>Описание</th><th>Срок</th></tr></thead>
+        <tbody>
             {%for task in context.tasks%}
                 <tr>
-                    <th>{{task.task}}</th>
-                    <th>{{task.describe}}</th>
-                    <th>{{task.ex_date}}</th>
+                    <th class="ID">{{task.id}}</th>
+                    <th>{{loop.index}}</th>
+                    <th class="task">{{task.task}}</th>
+                    <th class="describe">{{task.describe}}</th>
+                    <th class="ex_date">{{task.ex_date}}</th>
                 </tr>
             {%endfor%}
         </tbody>
     </table>
+    <div style="margin: auto;">
+        <button onclick="window.location.href='/'">На главную</button>
+        <button onclick="showform()" {}>Добавить задачу</button>
+        <button onclick="change()" data-tooltip="Кликните два раза по изменяемому полю">Изменить задачу</button>
+        <button onclick="del()" data-tooltip="Кликните два раза по удаляемой задаче">Удалить задачу</button>
+    </div>
 
-    <form method="POST" id="taskForm" onsubmit="send()">
+    
+    <form method="POST" id="taskForm" onsubmit="add()">
 
-        <p class="textField"><span>Task:</span></p>
+        <p class="textField"><span>Задача:</span></p>
         <input type="text" id="name" required>
 
-        <p class="textField">Description:</p>
+        <p class="textField">Описание:</p>
         <input type="text" id="description" required>
 
-        <p class="textField">Date:</p>
+        <p class="textField">Срок:</p>
         <input type="date" id="date" required>
 
-        <input type="submit" value="Confirm">
+        <input type="submit" value="Добавить задачу">
     </form>
 
-    <div id="context" style="display: block;">
-   
-    </div>
-
-    <div>
-        <button onclick="window.location.href='/'">На главную</button>
-    </div>
 
     <script defer>
         const form = document.querySelector('#taskForm');
         form.addEventListener('submit', function(e) {e.preventDefault()});
 
-        async function send(){
+        function showform() {
+            document.querySelector('#taskForm').style.display = 'block';
+        }
+        
+        async function change() {
+            let cells = document.querySelector('tbody');
+            let classes = ['task', 'describe', 'ex_date']
+            cells.addEventListener('dblclick', function(e) {
+                if ((e.target.tagName == 'TH') && (classes.includes(e.target.className))) {
+                    let id = e.target.parentElement.cells[0].textContent;
+                    let field = e.target.className;
+                    let new_value = prompt('Введите новое значение: ');
+                    let name = document.querySelector('#user').textContent;
+                    if (new_value) {
+                        e.target.textContent = new_value;
+                        fetch("/taskChange/", {
+                            method: "POST",
+                            headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                            body: JSON.stringify({ 
+                                id: id,
+                                field: field,
+                                new_value: new_value,
+                                name: name
+                            })
+                        })
+                        .then(res => {
+                            if (res.redirected) {
+                                window.location.href = res.url;
+                                return;
+                            } 
+                            else
+                                return res.text();
+                        });
+                    }
+                    else {
+                        window.location.reload(true)
+                    }
+                }
+            })
+
+        }
+
+        async function del() {
+            let cells = document.querySelector('tbody');
+            cells.addEventListener('dblclick', function(e) {
+                if (e.target.tagName == 'TH') {
+                    let id = e.target.parentElement.cells[0].textContent;
+                    let name = document.querySelector('#user').textContent;
+                    fetch("/taskDel/", {
+                        method: "POST",
+                        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                        body: JSON.stringify({ 
+                            id: id,
+                            name: name
+                        })
+                    })
+                    .then(res => {
+                        if (res.redirected) {
+                            window.location.href = res.url;
+                            return;
+                        } 
+                        else
+                            return res.text();
+                    });
+                }
+            })
+        }
+
+        async function add(){
             let name = document.querySelector("#name").value;
             let description = document.querySelector("#description").value;
             let date = document.querySelector("#date").value;
             let currentUser = document.querySelector('#user').textContent
-            console.log(currentUser)
             fetch("/recTask/", {
                 method: "POST",
                 headers: { "Accept": "application/json", "Content-Type": "application/json" },
@@ -108,13 +204,12 @@
             })
             .then(res => {
                 if (res.redirected) {
-                    alert('Задача добавлена')
                     window.location.href = res.url;
                     return;
                 } 
                 else
                     return res.text();
-                });
+            });
             
         }
 

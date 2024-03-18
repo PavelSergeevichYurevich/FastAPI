@@ -14,7 +14,7 @@
     }
     table {
         margin: auto;
-        width: 80%;
+        width: 50%;
         background-color: bisque;
         border: 1px solid black;
     }
@@ -38,11 +38,16 @@
   
     <table>
         <thead><tr><th>№</th><th>Name</th></tr></thead>
-        <tbody id="table">
+        <tbody>
+            {%for k,v in context.items()%}
+                <tr>
+                    <th>{{k}}</th>
+                    <th>{{v}}</th>
+                </tr>
+            {%endfor%}
         </tbody>
     </table>
 
-    <div id="context" style="display: none;">{{ context }}</div>
 
     <div>
         <button onclick="window.location.href='/'">На главную</button>
@@ -50,20 +55,6 @@
         <button onclick="window.location.href='/register/'">Регистрация</button>
     </div>
 
-    <script defer>
-        let context = document.querySelector('#context')
-        let users_str = context.textContent
-        let table = document.querySelector('#table')
 
-        users_str = users_str.slice(2, users_str.length - 2)
-        users_str = users_str.replaceAll(' ', '')
-        users_str = users_str.replaceAll("'", "")
-        let users = users_str.split(',')
-        for(let i = 0; i < users.length; ++i) {
-            currentUser = users[i].split(':')
-            table.insertAdjacentHTML("beforeend", `<tr><th>${currentUser[0]}</th><th>${currentUser[1]}</th></tr>`)
-        }
-
-    </script>
 </body>
 </html>
