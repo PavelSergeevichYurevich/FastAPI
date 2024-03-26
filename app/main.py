@@ -18,10 +18,6 @@ async def login(request:Request):
 @app.get("/register/") # <- декоратор, который обрабатывает get - запросы где маршрут
 async def login(request:Request):
     return templates.TemplateResponse(request=request, name="register.html")
-
-@app.get("/enter/") # <- декоратор, который обрабатывает get - запросы где маршрут
-async def enter(request:Request):
-    return templates.TemplateResponse("enter.html", {"request": request})
  
 @app.get("/users/", response_class = HTMLResponse) # <- декоратор, который обрабатывает get - запросы где маршрут
 async def get_users_page(request:Request):
