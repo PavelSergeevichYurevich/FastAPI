@@ -3,34 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', path='/css/styles.css') }}" rel="stylesheet">
     <title>Document</title>
 </head>
 <style>
-    button {
-        margin: auto;
-        margin-top: 20px;
-        width: 200px;
-        height: 30px;
-    }
-    table {
-        margin: auto;
-        width: 50%;
-        background-color: bisque;
-        border: 1px solid black;
-    }
-    table tr, th {
-        border: 1px solid black;
-        font-weight: lighter;
-
-    }
-    table thead tr, th{
-        font-weight: bolder;
-    }
-    div {
-        display: flex;
-        justify-content:center;
-        margin: auto;
-    }     
+   
 </style>
 <body>
     <h1 style="text-align: center;">Users</h1>
@@ -49,7 +26,7 @@
     </table>
 
 
-    <div>
+    <div class="div">
         <button onclick="window.location.href='/'">На главную</button>
         <button onclick="window.location.href='/login/'">Вход</button>
         <button onclick="window.location.href='/register/'">Регистрация</button>

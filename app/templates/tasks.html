@@ -3,77 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', path='/css/styles.css') }}" rel="stylesheet">
     <title>Tasks</title>
 </head>
-<style>
-    button {
-        margin: auto;
-        margin-top: 20px;
-        width: 200px;
-        height: 50px;
-    }
-    table {
-        margin: auto;
-        width: 80%;
-        background-color: bisque;
-        border: 1px solid black;
-    }
-    table tr, th {
-        border: 1px solid black;
-        font-weight: lighter;
 
-    }
-    table thead tr, th{
-        font-weight: bolder;
-    }
-    div {
-        display: flex;
-        justify-content:center;
-        margin: auto;
-    }     
-    #taskForm {
-        width: 30%;
-        margin: auto;
-        margin-top: 100px;
-        padding: 10px;
-        background-color: bisque;
-        display: none;
-    }
-
-    #checkForm input {
-        width: 100%;
-        margin-bottom: 10px;
-        box-sizing: border-box;
-    }
-    .textField {
-        display: flex;
-        justify-content: space-between;
-        margin: 0;
-    }
-    .ID {
-        display: none;
-    }
-    [data-tooltip] {
-        position: relative;
-    }
-    [data-tooltip]::after {
-        content: attr(data-tooltip);
-        position: absolute;
-        width: 300px; /* Ширина подсказки */
-        left: 0; top: 0;
-        background: #3989c9;
-        color: #fff;
-        padding: 0.5em;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-        pointer-events: none;
-        opacity: 0;
-        transition: 1s; /* Время появления подсказки */
-    } 
-       [data-tooltip]:hover::after {
-        opacity: 1;
-        top: 3em;
-    }
-</style>
 <body>
     <h1 style="text-align: center;">Tasks</h1>
     <h2 style="text-align: center";>Список задач пользователя <p id="user">{{ context.name }}</p></h2>
@@ -92,11 +25,11 @@
             {%endfor%}
         </tbody>
     </table>
-    <div style="margin: auto;">
-        <button onclick="window.location.href='/'">На главную</button>
-        <button onclick="showform()" {}>Добавить задачу</button>
-        <button onclick="change()" data-tooltip="Кликните два раза по изменяемому полю">Изменить задачу</button>
-        <button onclick="del()" data-tooltip="Кликните два раза по удаляемой задаче">Удалить задачу</button>
+    <div class="div" style="margin: auto;">
+        <button class="button" onclick="window.location.href='/'">На главную</button>
+        <button class="button" onclick="showform()" {}>Добавить задачу</button>
+        <button class="button" onclick="change()" data-tooltip="Кликните два раза по изменяемому полю">Изменить задачу</button>
+        <button class="button" onclick="del()" data-tooltip="Кликните два раза по удаляемой задаче">Удалить задачу</button>
     </div>
 
     

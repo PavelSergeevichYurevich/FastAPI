@@ -3,38 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .main {
-            width: 50%;
-            background-color: bisque;
-            padding: 20px;
-            margin: auto;
-            margin-top: 100px;
-            text-align: center;
-        }
-        #checkForm {
-            width: 80%;
-            margin: auto;
-        }
-
-        #checkForm input {
-            width: 100%;
-            margin-bottom: 10px;
-            box-sizing: border-box;
-        }
-        .textField {
-            display: flex;
-            justify-content: space-between;
-            margin: 0;
-        }
-        button {
-            display: block;
-            margin: auto;
-            margin-top: 20px;
-            width: 200px;
-            height: 30px;
-        }
-    </style>
+    <link href="{{ url_for('static', path='/css/styles.css') }}" rel="stylesheet">
     <title>First info</title>
 </head>
 <body>
