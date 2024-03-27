@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, Integer, String, Column, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
+
 def create_open_base():
     engine = create_engine("sqlite:///./users.db")
     Base = declarative_base()   
