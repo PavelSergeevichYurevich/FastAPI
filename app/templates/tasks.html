@@ -61,7 +61,7 @@
             let classes = ['task', 'describe', 'ex_date']
             cells.addEventListener('dblclick', function(e) {
                 if ((e.target.tagName == 'TH') && (classes.includes(e.target.className))) {
-                    let id = e.target.parentElement.cells[0].textContent;
+                    let id = Number(e.target.parentElement.cells[0].textContent);
                     let field = e.target.className;
                     let new_value = prompt('Введите новое значение: ');
                     let name = document.querySelector('#user').textContent;
@@ -98,7 +98,7 @@
             let cells = document.querySelector('tbody');
             cells.addEventListener('dblclick', function(e) {
                 if (e.target.tagName == 'TH') {
-                    let id = e.target.parentElement.cells[0].textContent;
+                    let id = Number(e.target.parentElement.cells[0].textContent);
                     let name = document.querySelector('#user').textContent;
                     fetch("/taskDel/", {
                         method: "POST",
